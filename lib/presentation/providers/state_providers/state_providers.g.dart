@@ -34,5 +34,20 @@ final darkModeProvider = AutoDisposeNotifierProvider<DarkMode, bool>.internal(
 );
 
 typedef _$DarkMode = AutoDisposeNotifier<bool>;
+String _$randomNameHash() => r'90810b1087105865b0cd9dc6b19466b10d85a822';
+
+/// See also [RandomName].
+@ProviderFor(RandomName)
+final randomNameProvider =
+    AutoDisposeNotifierProvider<RandomName, String>.internal(
+  RandomName.new,
+  name: r'randomNameProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$randomNameHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$RandomName = AutoDisposeNotifier<String>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

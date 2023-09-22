@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:riverpod_app/config/config.dart';
 
 part 'state_providers.g.dart';
 
@@ -18,4 +19,12 @@ class DarkMode extends _$DarkMode {
   bool build() => false;
 
   void toggleDarkMode() => state = !state;
+}
+
+@riverpod
+class RandomName extends _$RandomName {
+  @override
+  String build() => RandomGenerator.getRandomName();
+
+  void generateRandomName() => state = RandomGenerator.getRandomName();
 }
