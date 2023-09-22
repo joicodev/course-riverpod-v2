@@ -26,14 +26,12 @@ class StateProviderScreen extends ConsumerWidget {
                 );
               },
             ),
-            Consumer(
-              builder: (context, ref, child) {
-                return Text(
-                  ref.watch(randomNameProvider),
-                  style: const TextStyle(fontSize: 25),
-                );
-              },
-            ),
+            Consumer(builder: (_, ref, __) {
+              return Text(
+                ref.watch(randomNameProvider),
+                style: const TextStyle(fontSize: 25),
+              );
+            }),
             _counterWidget(),
             const Spacer(flex: 2),
           ],

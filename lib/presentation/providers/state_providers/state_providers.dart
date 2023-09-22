@@ -3,7 +3,7 @@ import 'package:riverpod_app/config/config.dart';
 
 part 'state_providers.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class Counter extends _$Counter {
   @override
   int build() => 5;
@@ -13,7 +13,7 @@ class Counter extends _$Counter {
   void decrease() => state--;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class DarkMode extends _$DarkMode {
   @override
   bool build() => false;
@@ -21,7 +21,7 @@ class DarkMode extends _$DarkMode {
   void toggleDarkMode() => state = !state;
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 class RandomName extends _$RandomName {
   @override
   String build() => RandomGenerator.getRandomName();
