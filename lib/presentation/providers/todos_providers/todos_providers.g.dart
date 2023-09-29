@@ -22,7 +22,7 @@ final todoCurrentFilterProvider =
 );
 
 typedef _$TodoCurrentFilter = AutoDisposeNotifier<TodoFilterType>;
-String _$todosHash() => r'dcd405e820655a6da643b2ac3a0b93ffe33f487e';
+String _$todosHash() => r'926d5f63e360771c822738c1d62dfbb32565a83f';
 
 /// See also [Todos].
 @ProviderFor(Todos)

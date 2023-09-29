@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_app/config/helpers/random_generator.dart';
 import 'package:riverpod_app/presentation/providers/providers.dart';
 
-class TodoScreen extends StatelessWidget {
+class TodoScreen extends ConsumerWidget {
   const TodoScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('State Provider + Providers'),
@@ -14,7 +15,11 @@ class TodoScreen extends StatelessWidget {
       body: const _BodyTodoView(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          ref.read(todosProvider.notifier).create(
+                RandomGenerator.getRandomName(),
+              );
+        },
       ),
     );
   }
@@ -25,6 +30,8 @@ class _BodyTodoView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final todos = ref.watch(todosProvider);
+    final currentFilter = ref.watch(todoCurrentFilterProvider);
     return Column(
       children: [
         const ListTile(
@@ -33,12 +40,18 @@ class _BodyTodoView extends ConsumerWidget {
         ),
         SegmentedButton(
           segments: const [
-            ButtonSegment(value: TodoFilterType.all, icon: Text('All')),
-            ButtonSegment(value: TodoFilterType.completed, icon: Text('Guest')),
+            ButtonSegment(
+              value: TodoFilterType.all,
+              icon: Text('All'),
+            ),
+            ButtonSegment(
+              value: TodoFilterType.completed,
+              icon: Text('Guest'),
+            ),
             ButtonSegment(
                 value: TodoFilterType.pending, icon: Text('Not guest')),
           ],
-          selected: const <TodoFilterType>{TodoFilterType.all},
+          selected: <TodoFilterType>{currentFilter},
           onSelectionChanged: (filterType) {
             final provider = ref.read(todoCurrentFilterProvider.notifier);
             provider.setCurrentFilter(filterType.first);
@@ -47,11 +60,16 @@ class _BodyTodoView extends ConsumerWidget {
         const SizedBox(height: 5),
         Expanded(
           child: ListView.builder(
+            itemCount: todos.length,
             itemBuilder: (context, index) {
+              final todo = todos[index];
               return SwitchListTile(
-                  title: const Text('Juan carlos'),
-                  value: true,
-                  onChanged: (value) {});
+                title: Text(todo.description),
+                value: todo.done,
+                onChanged: (value) {
+                  ref.read(todosProvider.notifier).toggle(todo.id);
+                },
+              );
             },
           ),
         )

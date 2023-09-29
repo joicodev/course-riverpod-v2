@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_app/config/config.dart';
 import 'package:riverpod_app/domain/domain.dart';
@@ -21,13 +23,33 @@ class TodoCurrentFilter extends _$TodoCurrentFilter {
 class Todos extends _$Todos {
   @override
   List<Todo> build() {
-    return List.generate(
-      10,
-      (index) => Todo(
+    final Random random = Random();
+    return List.generate(5, (index) {
+      final bool shouldComplete = random.nextBool();
+      return Todo(
         id: uuid.v4(),
         description: RandomGenerator.getRandomName(),
-        completedAt: DateTime.now(),
-      ),
-    );
+        completedAt: shouldComplete ? DateTime.now() : null,
+      );
+    });
+  }
+
+  void toggle(String id) {
+    state = state.map((todo) {
+      if (id == todo.id) {
+        return todo.copyWith(
+          completedAt: todo.done ? null : DateTime.now(),
+        );
+      }
+
+      return todo;
+    }).toList();
+  }
+
+  void create(String description) {
+    state = [
+      ...state,
+      Todo(id: uuid.v4(), description: description, completedAt: null),
+    ];
   }
 }
