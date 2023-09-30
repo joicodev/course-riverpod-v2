@@ -30,7 +30,7 @@ class _BodyTodoView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final todos = ref.watch(todosProvider);
+    final todos = ref.watch(filterTodosProvider);
     final currentFilter = ref.watch(todoCurrentFilterProvider);
     return Column(
       children: [
